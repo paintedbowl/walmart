@@ -1,0 +1,1 @@
+call runner.bat ticketmart.service.TicketMartService -t find %*

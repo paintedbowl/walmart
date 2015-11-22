@@ -1,0 +1,6 @@
+{ "Bootleg Theater" : [ 
+            { "LevelId"  : 1, "LevelIdName" : "Orchestra", "Price" : "100.00", "Rows" : 25, "NumOfSeats" : 50 },
+            { "LevelId"  : 2, "LevelIdName" : "Main", "Price" : "75.00", "Rows" : 20, "NumOfSeats" : 100 },
+            { "LevelId"  : 3, "LevelIdName" : "Balcony 1", "Price" : "50.00", "Rows" : 15, "NumOfSeats" : 100 },
+            { "LevelId"  : 4, "LevelIdName" : "Balcony 2", "Price" : "40.00", "Rows" : 15, "NumOfSeats" : 100 }]  
+ }    
