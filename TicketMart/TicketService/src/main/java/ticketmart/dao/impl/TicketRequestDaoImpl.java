@@ -43,7 +43,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 			for(TicketRequestInfo event :  emptyIfNull(requests)){	
 				levelId = event.getLevelId();
 				if(event.getCreateTime().plusSeconds(ALLOWED_HOLD_TIME).isBefore(currentTime) &&
-						"H".equalsIgnoreCase(event.getEventType())){					
+						EVENT_TYPE_HOLD.equalsIgnoreCase(event.getEventType())){					
 					if(tktsOnHold.containsKey(levelId)){
 						numOfTkts = tktsOnHold.get(levelId);					
 					}
@@ -65,7 +65,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 			List<TicketRequestInfo> events = initMap.get(key);	
 			for(TicketRequestInfo event :  emptyIfNull(events)){				 
 				if(event.getCreateTime().plusSeconds(ALLOWED_HOLD_TIME).isBefore(currentTime) &&
-						"H".equalsIgnoreCase(event.getEventType())){	
+						EVENT_TYPE_HOLD.equalsIgnoreCase(event.getEventType())){	
 					if(levelId.isPresent()){
 						if(event.getLevelId().equals(levelId.get())){
 							numOfTkts=numOfTkts+event.getNumOfSeats();
@@ -89,7 +89,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 			Integer levelId = null;
 			for(TicketRequestInfo event :  emptyIfNull(events)){
 				levelId = event.getLevelId();
-				if("P".equalsIgnoreCase(event.getEventType())){					
+				if(EVENT_TYPE_SOLD.equalsIgnoreCase(event.getEventType())){					
 					if(tktsOnSold.containsKey(levelId)){
 						numOfTkts = tktsOnSold.get(levelId);					
 					}
@@ -108,7 +108,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 		for(Long key : eventsKeys){
 			List<TicketRequestInfo> events = initMap.get(key);	
 			for(TicketRequestInfo event :  emptyIfNull(events)){
-				if("P".equalsIgnoreCase(event.getEventType())){	
+				if(EVENT_TYPE_SOLD.equalsIgnoreCase(event.getEventType())){	
 					if(levelId.isPresent()){
 						if(event.getLevelId().equals(levelId.get())){
 							numOfTkts=numOfTkts+event.getNumOfSeats();
@@ -239,8 +239,8 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 			Instant createTime = Instant.parse((String)objectInArray.get("time"));
 			String eventType = (String)objectInArray.get("type");
 			Long requestId = (Long)objectInArray.get("requestId");
-			if(("H".equalsIgnoreCase(eventType)) && (createTime.plusSeconds(ALLOWED_HOLD_TIME).isBefore(currentTime) && !requestId.equals(_requestId))
-				|| !("H".equalsIgnoreCase(eventType))) {
+			if((EVENT_TYPE_HOLD.equalsIgnoreCase(eventType)) && (createTime.plusSeconds(ALLOWED_HOLD_TIME).isBefore(currentTime) && !requestId.equals(_requestId))
+				|| !(EVENT_TYPE_HOLD.equalsIgnoreCase(eventType))) {
 					JSONObject event = new JSONObject(); 
 					event.put("requestId",(Long)objectInArray.get("requestId"));
 					event.put("LevelId",(Long)objectInArray.get("LevelId"));
@@ -287,7 +287,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 						seatsHeld=availableSeats;
 						pendingSeats = pendingSeats-availableSeats;					
 					}
-					TicketRequestInfo event = new TicketRequestInfo(Integer.valueOf(levelId),"H",seatsHeld,Instant.now());
+					TicketRequestInfo event = new TicketRequestInfo(Integer.valueOf(levelId),EVENT_TYPE_HOLD,seatsHeld,Instant.now());
 					requests.add(event);
 				}			
 			}

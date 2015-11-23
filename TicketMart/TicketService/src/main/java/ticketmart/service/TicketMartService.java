@@ -20,7 +20,7 @@ public class TicketMartService {
 	
     private static void printFindSeatsUsage() {
         System.out.println("Usage: TicketsAvailbale.bat"         		
-        		+" -l <Level ID>");
+        		+" -l <Level ID> (optional)");
     }
     private static void printHoldSeatsUsage() {
     	System.out.println("Usage: FindAndHoldTickets.bat "
