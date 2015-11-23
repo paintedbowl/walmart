@@ -42,7 +42,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 			Integer levelId = null;
 			for(TicketRequestInfo event :  emptyIfNull(requests)){	
 				levelId = event.getLevelId();
-				if(event.getCreateTime().plusSeconds(ALLOWED_HOLD_TIME).isBefore(currentTime) &&
+				if(event.getCreateTime().plusSeconds(ALLOWED_HOLD_TIME).isAfter(currentTime) &&
 						EVENT_TYPE_HOLD.equalsIgnoreCase(event.getEventType())){					
 					if(tktsOnHold.containsKey(levelId)){
 						numOfTkts = tktsOnHold.get(levelId);					
@@ -64,7 +64,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 		for(Long key : eventsKeys){
 			List<TicketRequestInfo> events = initMap.get(key);	
 			for(TicketRequestInfo event :  emptyIfNull(events)){				 
-				if(event.getCreateTime().plusSeconds(ALLOWED_HOLD_TIME).isBefore(currentTime) &&
+				if(event.getCreateTime().plusSeconds(ALLOWED_HOLD_TIME).isAfter(currentTime) &&
 						EVENT_TYPE_HOLD.equalsIgnoreCase(event.getEventType())){	
 					if(levelId.isPresent()){
 						if(event.getLevelId().equals(levelId.get())){
@@ -232,6 +232,20 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 		writeToJsonFile(eventsJson);
 	}
 	
+	private void removeExpiredRequests(){
+		try{
+			JSONArray jsonArray = getCurrentEvents();		
+			JSONObject eventsJson = new JSONObject();
+			JSONArray eventArray = new JSONArray();
+			// remove the expired requests
+			removeExpiredRequests(jsonArray,eventArray,Long.valueOf("0"));
+			eventsJson.put(VenueInfoDaoImpl.VENUE_NAME, eventArray);	
+			writeToJsonFile(eventsJson);
+		}catch(Exception exp){
+			System.out.println("Error while deleting expired events."+exp.toString());
+		}
+	}
+	
 	private void removeExpiredRequests(JSONArray jsonArray,JSONArray eventArray,Long _requestId){
 		for (int i = 0, size = jsonArray.size(); i < size; i++){
 			JSONObject objectInArray = (JSONObject)jsonArray.get(i);
@@ -239,7 +253,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 			Instant createTime = Instant.parse((String)objectInArray.get("time"));
 			String eventType = (String)objectInArray.get("type");
 			Long requestId = (Long)objectInArray.get("requestId");
-			if((EVENT_TYPE_HOLD.equalsIgnoreCase(eventType)) && (createTime.plusSeconds(ALLOWED_HOLD_TIME).isBefore(currentTime) && !requestId.equals(_requestId))
+			if((EVENT_TYPE_HOLD.equalsIgnoreCase(eventType)) && (createTime.plusSeconds(ALLOWED_HOLD_TIME).isAfter(currentTime) && !requestId.equals(_requestId))
 				|| !(EVENT_TYPE_HOLD.equalsIgnoreCase(eventType))) {
 					JSONObject event = new JSONObject(); 
 					event.put("requestId",(Long)objectInArray.get("requestId"));
@@ -308,6 +322,9 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 	public HashMap <Integer,Integer> numberOfSeatsAvailable(Optional<Integer> venueLevel) {
 		HashMap <Integer,Integer> numOfSeatsAvailableMap = new HashMap <Integer,Integer>();
 		int numOfSeatsAvailable = 0;
+		// remove the expired requests
+		removeExpiredRequests();
+				
 		VenueInfoDao venue = new VenueInfoDaoImpl();
 		if(venueLevel.isPresent()){
 			numOfSeatsAvailable =  venue.getNumSeats(venueLevel.get().intValue()) -

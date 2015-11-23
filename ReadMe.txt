@@ -9,6 +9,15 @@ Level Id 	Level Name 		Price 		Rows 	Seats in Row
 Name Of the Venue: Bootleg Theater
 Name Of the Event: Bob Marley Live
 
+How To?
+Follow the seps below to install, compile and execute the TicketMart Service
+Step 1: Pull the github project --> https://github.com/paintedbowl/walmart.git
+Step 2: cd <github_home>\TicketMart\TicketService
+Step 3: compile the maven project
+		mvn clean install
+Step 4: Execute the .bat file for the corresponding service options listed below.
+
+
 The ticket service has following options:
 1.	Find the number of seats available within the venue by seating level. The available seats are neither held or reserved.
 Command: TicketsAvailbale.bat -l <Level ID> (optional)
@@ -27,10 +36,3 @@ Command: ReserveTickets.bat -r <Request ID> -e <Customer Email>
 Examples
 ReserveTickets.bat -r 1448223830004 -e correct_email@gmail.com
 
-How To?
-Follow the seps below to install, compile and execute the TicketMart Service
-Step 1: Pull the github project --> https://github.com/paintedbowl/walmart.git
-Step 2: cd <github_home>\TicketMart\TicketService
-Step 3: compile the maven project
-		mvn clean install
-Step 4: Execute the .bat file for the corresponding service options listed above.

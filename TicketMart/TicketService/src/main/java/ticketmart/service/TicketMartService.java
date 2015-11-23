@@ -7,6 +7,7 @@ import java.util.Set;
 import gnu.getopt.Getopt;
 import ticketmart.bean.SeatHold;
 import ticketmart.bean.TicketRequestInfo;
+import ticketmart.dao.LevelCategory;
 import ticketmart.dao.impl.TicketRequestDaoImpl;
 import ticketmart.dao.impl.VenueInfoDaoImpl;
 
@@ -73,7 +74,7 @@ public class TicketMartService {
 	            	levelIdMin = Optional.of(Integer.valueOf(g.getOptarg().toLowerCase()));
 	                break;
 	            case 'm':
-	            	levelIdMin = Optional.of(Integer.valueOf(g.getOptarg().toLowerCase()));
+	            	levelIdMax = Optional.of(Integer.valueOf(g.getOptarg().toLowerCase()));
 	                break;
 	            case 'r':
 	            	requestId = g.getOptarg() ;
@@ -95,7 +96,7 @@ public class TicketMartService {
 	    		System.out.println("\nVenue:"+VenueInfoDaoImpl.VENUE_NAME);
 	    		System.out.println("Event:"+TicketMartService.EVENT+"\n");
 	    		for(Integer level : TicketRequestDaoImpl.emptyIfNull(keys)){
-	    			System.out.println("Level: "+level.toString()+"\t Number Of Seats: "+results.get(level).toString());
+	    			System.out.println("Level: "+LevelCategory.fromIntValue(level.intValue())+"\t Number Of Seats: "+results.get(level).toString());
 	    		}
 	    		System.out.println("\n************* End Of Message *****************");
 	        }
@@ -121,7 +122,7 @@ public class TicketMartService {
 		    		}
 		    		System.out.println("\nTicket Information:");
 		    		for(TicketRequestInfo tkt : TicketRequestDaoImpl.emptyIfNull(results.getRequests())){
-		    			System.out.println("Level: "+tkt.getLevelId()+"\t Number Of Seats: "+tkt.getNumOfSeats());
+		    			System.out.println("Level: "+LevelCategory.fromIntValue(tkt.getLevelId().intValue())+"\t Number Of Seats: "+tkt.getNumOfSeats());
 		    		}	    		
 		    		System.out.println("\nYou have one minute to confirm this reservation. Please use the Request Id "+results.getRequestId()+" to reserve the seats.");
 	    		}else{
@@ -146,11 +147,11 @@ public class TicketMartService {
 	    		System.out.println("Customer Email:"+results.getCustomerEmail());
 	    		System.out.println("\nTicket Information:");
 	    		if(results.getRequests() != null && results.getRequests().isEmpty()){
-	    			System.out.println("Request ID "+results.getRequestId()+"not found");
+	    			System.out.println("Request ID "+results.getRequestId()+" not found");
 	    			
 	    		}else{
 		    		for(TicketRequestInfo tkt : TicketRequestDaoImpl.emptyIfNull(results.getRequests())){
-		    			System.out.println("Level: "+tkt.getLevelId()+"\t Number Of Seats: "+tkt.getNumOfSeats());
+		    			System.out.println("Level: "+LevelCategory.fromIntValue(tkt.getLevelId().intValue())+"\t Number Of Seats: "+tkt.getNumOfSeats());
 		    		}
 		    		System.out.println("\n The ticket above has been reserved.");
 	    		}
