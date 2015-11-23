@@ -32,10 +32,10 @@ public class TicketMartTest
     public static Test suite()
     {
     	TestSuite suite = new TestSuite( TicketMartTest.class );
-    	suite.addTest(new TicketMartTest("testVenueInfo"));
-    	suite.addTest(new TicketMartTest("testNumerOfSeatsAvailable"));
-    	suite.addTest(new TicketMartTest("testFindAndHoldSeats"));
-    	suite.addTest(new TicketMartTest("testReserveSeats"));
+//    	suite.addTest(new TicketMartTest("testVenueInfo"));
+//    	suite.addTest(new TicketMartTest("testNumerOfSeatsAvailable"));
+//    	suite.addTest(new TicketMartTest("testFindAndHoldSeats"));
+//    	suite.addTest(new TicketMartTest("testReserveSeats"));
         return new TestSuite( TicketMartTest.class );
     }
 
