@@ -32,5 +32,5 @@ Follow the seps below to install, compile and execute the TicketMart Service
 Step 1: Pull the github project --> https://github.com/paintedbowl/walmart.git
 Step 2: cd <github_home>\TicketMart\TicketService
 Step 3: compile the maven project
-		mvn install
-Step 4: Execute the .bat files for the corresponding service options listed above.
+		mvn clean install
+Step 4: Execute the .bat file for the corresponding service options listed above.

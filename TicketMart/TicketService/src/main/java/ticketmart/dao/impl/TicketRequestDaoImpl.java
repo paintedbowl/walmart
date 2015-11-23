@@ -157,7 +157,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 	
 	private static JSONArray getCurrentEvents() throws Exception{
 		String currentDirectory = System.getProperty("user.dir");
-		System.out.println("Current working directory : "+currentDirectory);
+		//System.out.println("Current working directory : "+currentDirectory);
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(new FileReader(currentDirectory+"/ticket_requests.json"));		
 		JSONObject jsonObject = (JSONObject) obj;				
@@ -253,7 +253,7 @@ public class TicketRequestDaoImpl implements TicketRequestDao{
 	}
 	private void writeToJsonFile(JSONObject eventsJson)throws Exception{
 		String currentDirectory = System.getProperty("user.dir");
-		System.out.println("Current working directory : "+currentDirectory);
+		//System.out.println("Current working directory : "+currentDirectory);
 		try (FileWriter eventFile = new FileWriter(currentDirectory+"/ticket_requests.json")) {
 			eventFile.write(eventsJson.toJSONString());
 			//System.out.println("Successfully Copied JSON Object to File...");

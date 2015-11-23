@@ -14,6 +14,11 @@ import ticketmart.dao.VenueInfoDao;
 public class VenueInfoDaoImpl implements VenueInfoDao{
 	public final static String VENUE_NAME = "Bootleg Theater";
 	
+	/**
+	* The number of seats in the venue that are neither held nor reserved
+	* @param venueLevel a numeric venue level identifier to limit the search
+	* * @return the  number of tickets available on all the level
+	*/
 	@Override
 	public int getNumSeats() {
 		int numOfSeatsAvailable = 0;
@@ -23,6 +28,11 @@ public class VenueInfoDaoImpl implements VenueInfoDao{
 		return numOfSeatsAvailable;
 	}
 	
+	/**
+	* The number of seats in the requested level that are neither held nor reserved
+	* @param venueLevel a numeric venue level identifier to limit the search
+	* * @return the HashMap of number of tickets available on the provided level
+	*/
 	public HashMap <Integer,Integer> getNumSeatsMap() {
 		HashMap <Integer,Integer> numOfSeatsAvailableMap = new HashMap <Integer,Integer>();
 		int numOfSeatsAvailable = 0;
@@ -34,6 +44,11 @@ public class VenueInfoDaoImpl implements VenueInfoDao{
 		return numOfSeatsAvailableMap;
 	}	
 	
+	/**
+	* The number of seats in the requested level that are neither held nor reserved
+	* @param venueLevel a numeric venue level identifier to limit the search
+	* * @return the number of tickets available on the provided level
+	*/
 	@Override
 	public int getNumSeats(int venueLevel) {
 		TicketInfo tktInfo = initMap.get(Integer.valueOf(venueLevel).longValue());		
@@ -45,7 +60,7 @@ public class VenueInfoDaoImpl implements VenueInfoDao{
 		initMap = new HashMap<Long, TicketInfo>() ;
 		try{
 			String currentDirectory = System.getProperty("user.dir");
-			System.out.println("Current working directory : "+currentDirectory);
+			//System.out.println("Current working directory : "+currentDirectory);
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(new FileReader(currentDirectory+"/venue_details.json"));		
 			JSONObject jsonObject = (JSONObject) obj;				
@@ -65,10 +80,4 @@ public class VenueInfoDaoImpl implements VenueInfoDao{
 			System.out.println("Error while reading the venue Info. Please make sure that the venue_details.json exists.");
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
-		VenueInfoDaoImpl client = new VenueInfoDaoImpl();
-    	int results = client.getNumSeats(5);
-    	System.out.println("seats="+results);
-    }
 }

@@ -9,8 +9,6 @@ import ticketmart.bean.SeatHold;
 import ticketmart.bean.TicketRequestInfo;
 import ticketmart.dao.impl.TicketRequestDaoImpl;
 import ticketmart.dao.impl.VenueInfoDaoImpl;
-import ticketmart.ticketservice.TicketService;
-import ticketmart.ticketservice.impl.TicketServiceImpl;
 
 public class TicketMartService {
 	public static final String FIND_TICKET_AVAILABLITY = "find";
@@ -91,10 +89,9 @@ public class TicketMartService {
 	        }	        
 			
 	        if(FIND_TICKET_AVAILABLITY.equalsIgnoreCase(testCaseName)){
-	        	TicketService client = new TicketServiceImpl();
-	    		HashMap <Integer,Integer> results = client.numberOfSeatsAvailable(Optional.empty());
+	        	HashMap <Integer,Integer> results = TicketMartServiceHolder.getInstance().numberOfSeatsAvailable(levelId);
 	    		Set<Integer> keys =  results.keySet();
-	    		System.out.println("\n************* Ticket Mart *****************");
+	    		System.out.println("\n************* TicketMart *****************");
 	    		System.out.println("\nVenue:"+VenueInfoDaoImpl.VENUE_NAME);
 	    		System.out.println("Event:"+TicketMartService.EVENT+"\n");
 	    		for(Integer level : TicketRequestDaoImpl.emptyIfNull(keys)){
@@ -110,9 +107,8 @@ public class TicketMartService {
 	        	if(numberOfSeats == 0){
 	        		TicketMartService.printValidationMessage(testCaseName,"Please provice number of tickets to be held.");
 	        	}
-	        	TicketService client = new TicketServiceImpl();
-	    		SeatHold results = client.findAndHoldSeats(numberOfSeats, levelIdMin, levelIdMax, customerEmail);
-	    		System.out.println("\n************* Ticket Mart *****************");
+	        	SeatHold results = TicketMartServiceHolder.getInstance().findAndHoldSeats(numberOfSeats, levelIdMin, levelIdMax, customerEmail);
+	    		System.out.println("\n************* TicketMart *****************");
 	    		System.out.println("\nVenue:"+VenueInfoDaoImpl.VENUE_NAME);	    		
 	    		System.out.println("Event:"+EVENT+"\n");
 	    		
@@ -141,9 +137,8 @@ public class TicketMartService {
 	        	if(requestId == null){
 	        		TicketMartService.printValidationMessage(testCaseName,"Please provice a request id to reserve the ticket.");
 	        	}
-	        	TicketService client = new TicketServiceImpl();
-	    		SeatHold results = client.reserveSeats(Long.valueOf(requestId), customerEmail);
-	    		System.out.println("\n************* Ticket Mart *****************");
+	        	SeatHold results = TicketMartServiceHolder.getInstance().reserveSeats(requestId, customerEmail);
+	    		System.out.println("\n************* TicketMart *****************");
 	    		System.out.println("\nVenue:"+VenueInfoDaoImpl.VENUE_NAME);	    		
 	    		System.out.println("Event:"+EVENT+"\n");
 	    		
