@@ -1,17 +1,17 @@
 This is a simple ticket service that facilitates the discovery, temporary hold, and final reservation of seats within a high-demand performance venue.
 The seating arrangement and pricing details for a simple venue below.
 Level Id 	Level Name 		Price 		Rows 	Seats in Row
-1			 Orchestra 		$100.00 	25 		50
-2 			Main 			$75.00 		20 		100
-3 			Balcony 1 		$50.00 		15 		100
-4 			Balcony 2 		$40.00 		15 		100
+1		Orchestra 		$100.00 	25 	50
+2 		Main 			$75.00 		20 	100
+3 		Balcony 1 		$50.00 		15 	100
+4 		Balcony 2 		$40.00 		15 	100
 
 Name Of the Venue: Bootleg Theater
 Name Of the Event: Bob Marley Live
 
 How To?
 Follow the seps below to install, compile and execute the TicketMart Service
-Step 1: Pull the github project --> https://github.com/paintedbowl/walmart.git
+Step 1: clone the github project --> https://github.com/paintedbowl/walmart.git
 Step 2: cd <github_home>\TicketMart\TicketService
 Step 3: compile the maven project
 		mvn clean install
